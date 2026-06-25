@@ -8,6 +8,11 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white p-6 shadow-sm sm:rounded-lg">
+                @if (session('success'))
+                    <div class="mb-4 p-3 bg-green-100 text-green-800 rounded">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <table class="w-full border-collapse border">
                     <thead>
                         <tr class="bg-gray-100">
@@ -29,8 +34,19 @@
                                 <td class="border p-2">{{ $member->status }}</td>
                                 <td class="border p-2">
                                     <a href="{{ route('members.edit', $member) }}" class="text-blue-600 underline">
-                                         Επεξεργασία
+                                        Επεξεργασία
                                     </a>
+
+                                    <form method="POST" action="{{ route('members.destroy', $member) }}" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit"
+                                                onclick="return confirm('Σίγουρα θέλεις να διαγράψεις αυτό το μέλος;')"
+                                                class="text-red-600 underline ml-3">
+                                            Διαγραφή
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @empty

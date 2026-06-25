@@ -42,7 +42,8 @@ class MemberController extends Controller
 
     Member::create($validated);
 
-    return redirect()->route('members.index');
+    return redirect()->route('members.index')
+    ->with('success', 'Το μέλος δημιουργήθηκε επιτυχώς.');
 }
 
     /**
@@ -57,23 +58,39 @@ class MemberController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Member $member)
-    {
-        //
-    }
+{
+    return view('members.edit', compact('member'));
+}
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Member $member)
-    {
-        //
-    }
+{
+    $validated = $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'phone' => 'nullable|string|max:50',
+        'email' => 'nullable|email|max:255',
+        'birth_date' => 'nullable|date',
+        'address' => 'nullable|string|max:255',
+        'status' => 'required|in:active,inactive',
+        'notes' => 'nullable|string',
+    ]);
+
+    $member->update($validated);
+
+    return redirect()->route('members.index')
+    ->with('success', 'Το μέλος ενημερώθηκε επιτυχώς.');
+}
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Member $member)
     {
-        //
+        $member->delete();
+        return redirect()->route('members.index')
+        ->with('success', 'Το μέλος διαγράφηκε επιτυχώς.');
     }
 }

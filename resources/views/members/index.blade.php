@@ -13,6 +13,29 @@
                         {{ session('success') }}
                     </div>
                 @endif
+                <form method="GET" action="{{ route('members.index') }}" class="mb-4 flex gap-2">
+                    <input
+                        type="text"
+                        name="search"
+                        value="{{ $search }}"
+                        placeholder="Αναζήτηση με όνομα, επώνυμο, τηλέφωνο ή email"
+                        class="w-full border rounded p-2"
+                    >
+
+                    <select name="status" class="border rounded p-2">
+                        <option value="">Όλες οι καταστάσεις</option>
+                        <option value="active" @selected($status === 'active')>Ενεργά</option>
+                        <option value="inactive" @selected($status === 'inactive')>Ανενεργά</option>
+                    </select>
+
+                    <button type="submit" style="background-color: #2563eb; color: white; padding: 8px 16px; border-radius: 6px;">
+                        Αναζήτηση
+                    </button>
+
+                    <a href="{{ route('members.index') }}" class="px-4 py-2 border rounded">
+                        Καθαρισμός
+                    </a>
+                </form>
                 <table class="w-full border-collapse border">
                     <thead>
                         <tr class="bg-gray-100">
@@ -31,7 +54,17 @@
                                 <td class="border p-2">{{ $member->last_name }}</td>
                                 <td class="border p-2">{{ $member->phone }}</td>
                                 <td class="border p-2">{{ $member->email }}</td>
-                                <td class="border p-2">{{ $member->status }}</td>
+                                <td class="border p-2">
+                                    @if ($member->status === 'active')
+                                        <span class="px-2 py-1 bg-green-100 text-green-800 rounded">
+                                            Ενεργό
+                                        </span>
+                                    @else
+                                        <span class="px-2 py-1 bg-red-100 text-red-800 rounded">
+                                            Ανενεργό
+                                        </span>
+                                    @endif
+                                </td>
                                 <td class="border p-2">
                                     <a href="{{ route('members.edit', $member) }}" class="text-blue-600 underline">
                                         Επεξεργασία
@@ -58,6 +91,9 @@
                         @endforelse
                     </tbody>
                 </table>
+                <div class="mt-4">
+                    {{ $members->links() }}
+                </div>
             </div>
         </div>
     </div>

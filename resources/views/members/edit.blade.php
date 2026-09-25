@@ -20,7 +20,24 @@
                         <label class="block mb-1">Επώνυμο *</label>
                         <input type="text" name="last_name" value="{{ $member->last_name }}" class="w-full border rounded p-2" required>
                     </div>
+                    <div class="mb-4">
+    <label class="block mb-1">Τμήματα</label>
 
+    <div class="border rounded p-3 space-y-2">
+        @foreach ($departments as $department)
+            <label class="flex items-center gap-2">
+                <input
+                    type="checkbox"
+                    name="department_ids[]"
+                    value="{{ $department->id }}"
+                    @checked($member->departments->contains($department->id))
+                >
+
+                                <span>{{ $department->name }}</span>
+                                </label>
+                            @endforeach
+                        </div>
+                    </div>
                     <div class="mb-4">
                         <label class="block mb-1">Τηλέφωνο</label>
                         <input type="text" name="phone" value="{{ $member->phone }}" class="w-full border rounded p-2">

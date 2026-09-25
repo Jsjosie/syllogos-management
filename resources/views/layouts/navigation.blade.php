@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('members.index')" :active="request()->routeIs('members.*')">
                         Μέλη
                     </x-nav-link>
+                    <x-nav-link :href="route('departments.index')" :active="request()->routeIs('departments.*')">
+                        Τμήματα
+                    </x-nav-link>
                 </div>
             </div>
 

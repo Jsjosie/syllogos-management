@@ -27,6 +27,15 @@
                         <option value="active" @selected($status === 'active')>Ενεργά</option>
                         <option value="inactive" @selected($status === 'inactive')>Ανενεργά</option>
                     </select>
+                    <select name="department_id" class="border rounded p-2">
+    <option value="">Όλα τα τμήματα</option>
+
+    @foreach ($departments as $department)
+        <option value="{{ $department->id }}" @selected($departmentId == $department->id)>
+            {{ $department->name }}
+        </option>
+    @endforeach
+</select>
 
                     <button type="submit" style="background-color: #2563eb; color: white; padding: 8px 16px; border-radius: 6px;">
                         Αναζήτηση
@@ -41,6 +50,7 @@
                         <tr class="bg-gray-100">
                             <th class="border p-2 text-left">Όνομα</th>
                             <th class="border p-2 text-left">Επώνυμο</th>
+                            <th class="border p-2 text-left">Τμήμα</th>
                             <th class="border p-2 text-left">Τηλέφωνο</th>
                             <th class="border p-2 text-left">Email</th>
                             <th class="border p-2 text-left">Κατάσταση</th>
@@ -52,6 +62,13 @@
                             <tr>
                                 <td class="border p-2">{{ $member->first_name }}</td>
                                 <td class="border p-2">{{ $member->last_name }}</td>
+                                <td class="border p-2">
+                                     @if ($member->departments->count())
+                                        {{ $member->departments->pluck('name')->join(', ') }}
+                                    @else
+                                        Χωρίς τμήμα
+                                    @endif
+                                </td>   
                                 <td class="border p-2">{{ $member->phone }}</td>
                                 <td class="border p-2">{{ $member->email }}</td>
                                 <td class="border p-2">
@@ -84,7 +101,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="border p-4 text-center text-gray-500">
+                                <td colspan="7" class="border p-4 text-center text-gray-500">
                                     Δεν υπάρχουν μέλη ακόμα.
                                 </td>
                             </tr>

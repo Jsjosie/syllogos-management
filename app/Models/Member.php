@@ -16,4 +16,9 @@ class Member extends Model
         'status',
         'notes',
     ];
+
+    public function departments()
+    {
+        return $this->belongsToMany(Department::class)->withTimestamps();
+    }
 }
